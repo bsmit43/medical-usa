@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Doctors - Medical USA">
+  <title>Doctors - Medical USA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+      /* Calm Healthcare Style - Soothing colors and gentle animations */
+      body{font-family:'Inter', system-ui, sans-serif;overflow-x:hidden;width:100%;max-width:100%;margin:0;padding:0}
+      h1,h2,h3,h4,h5,h6{font-family:'Inter', sans-serif}
+      section,header,footer{width:100vw;max-width:100%;overflow-x:hidden}
+      header{background-size:cover;background-position:center;background-repeat:no-repeat;position:relative;min-height:500px;display:flex;align-items:center}
+      [data-animate]{opacity:0;transform:translateY(20px);transition:opacity .8s ease-out,transform .8s ease-out}[data-animate].visible{opacity:1;transform:translateY(0)}
+      .nav-fixed{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(255,255,255,.9);backdrop-filter:blur(8px);box-shadow:0 1px 3px rgba(0,0,0,.08);transition:all .4s ease;width:100%}
+      ::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:#f5f7fa}::-webkit-scrollbar-thumb{background:hsl(210, 73%, 40%);border-radius:8px}::-webkit-scrollbar-thumb:hover{background:hsl(210, 73%, 30%)}
+      body::before{content:'';position:fixed;top:0;left:0;right:0;height:3px;background:hsl(210, 73%, 40%);transform:scaleX(calc(var(--scroll-progress,0%)/100));transform-origin:left;z-index:1000}
+      @media print{[data-animate]{opacity:1;transform:none}}
+  </style>
+  
+  <style>
+    /* Default styles */
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    
+    section, header, footer {
+      width: 100vw;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    
+    header {
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+      min-height: 500px;
+      display: flex;
+      align-items: center;
+    }
+    
+    /* Animation system */
+    [data-animate] {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    
+    [data-animate].visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Fixed navigation styling */
+    .nav-fixed {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+  </style>
+</head>
+<body class="antialiased text-gray-800">
+  <nav class="bg-gradient-to-r from-blue-700 to-blue-900 text-white py-4 fixed top-0 w-full z-50" data-animate="slide-in-top">
+    <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between">
+            <!-- Logo -->
+            <a href="/" class="flex items-center">
+                <img src="/api/placeholder/50/50" alt="Medical USA Logo" class="h-10 w-10 mr-2 rounded-full">
+                <span class="text-xl font-semibold">Medical USA</span>
+            </a>
+
+            <!-- Mobile Menu Button (Hidden on larger screens) -->
+            <button id="mobile-menu-button" class="lg:hidden focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+
+            <!-- Navigation Links (Hidden on mobile, shown on larger screens) -->
+            <div class="hidden lg:flex items-center space-x-6">
+                <a href="/" class="hover:text-orange-300 transition duration-300">Home</a>
+                <a href="/about" class="hover:text-orange-300 transition duration-300">About Us</a>
+                <a href="/services" class="hover:text-orange-300 transition duration-300">Services</a>
+                <a href="/doctors" class="hover:text-orange-300 transition duration-300">Our Doctors</a>
+                <a href="/contact" class="hover:text-orange-300 transition duration-300">Contact</a>
+                <a href="/appointment" class="bg-orange-500 hover:bg-orange-700 text-white py-2 px-4 rounded-lg transition duration-300">Book Appointment</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu (Hidden by default) -->
+    <div id="mobile-menu" class="lg:hidden hidden bg-blue-800 py-4">
+        <div class="container mx-auto px-4 flex flex-col space-y-4">
+            <a href="/" class="hover:text-orange-300 transition duration-300 block">Home</a>
+            <a href="/about" class="hover:text-orange-300 transition duration-300 block">About Us</a>
+            <a href="/services" class="hover:text-orange-300 transition duration-300 block">Services</a>
+            <a href="/doctors" class="hover:text-orange-300 transition duration-300 block">Our Doctors</a>
+            <a href="/contact" class="hover:text-orange-300 transition duration-300 block">Contact</a>
+            <a href="/appointment" class="bg-orange-500 hover:bg-orange-700 text-white py-2 px-4 rounded-lg transition duration-300 block">Book Appointment</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', function () {
+                mobileMenu.classList.toggle('hidden');
+            });
+        });
+    </script>
+</nav>
+  
+  [object Promise]
+  
+  <main class="container mx-auto px-4 py-8">
+    ```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical USA - Doctors</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Custom Styles (optional - can be added inline or in a separate CSS file) */
+        .hero-gradient {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/images/ga3b9225b24c1cb24c510c5092767d960e1e1c5619fb875cf73d1f9a887daab1794644487dcb6a8c64c9a8964e2ded690_640.jpg);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 font-sans">
+
+    <!-- Header (Hero Section) -->
+    <header class="hero-gradient text-white py-16 md:py-24 lg:py-32 min-h-[500px] flex items-center">
+        <div class="container mx-auto px-4">
+            <nav class="flex items-center justify-between mb-8">
+                <a href="/" class="text-2xl font-bold">Medical USA</a>
+                <div class="hidden md:flex space-x-6">
+                    <a href="/" class="hover:text-red-300">Home</a>
+                    <a href="/doctors.html" class="hover:text-red-300">Doctors</a>
+                    <a href="#" class="hover:text-red-300">Services</a>
+                    <a href="#" class="hover:text-red-300">About Us</a>
+                    <a href="#" class="hover:text-red-300">Contact</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-white focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </nav>
+            <div class="md:hidden absolute top-20 right-0 bg-gray-800 text-white p-4 rounded-md shadow-md hidden"
+                id="mobile-menu">
+                <a href="/" class="block py-2 hover:text-red-300">Home</a>
+                <a href="/doctors.html" class="block py-2 hover:text-red-300">Doctors</a>
+                <a href="#" class="block py-2 hover:text-red-300">Services</a>
+                <a href="#" class="block py-2 hover:text-red-300">About Us</a>
+                <a href="#" class="block py-2 hover:text-red-300">Contact</a>
+            </div>
+            <div class="text-center">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4" data-animate="fade-in">Our Dedicated
+                    Doctors</h1>
+                <p class="text-lg md:text-xl mb-8" data-animate="fade-in" data-animate-delay="200">Meet our team of
+                    experienced and compassionate medical professionals.</p>
+                <a href="#"
+                    class="inline-block bg-red-500 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300"
+                    data-animate="slide-in-bottom" data-animate-delay="400">Book an Appointment</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Doctors Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center" data-animate="fade-in">Our Medical Team</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Doctor Card 1 -->
+                <div class="doctor-card bg-gray-100 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300"
+                    data-animate="slide-in-left">
+                    <img src="/images/g69f222d2b8d5373da3cadf56684b2c58901e74aec53263dcb3ad049955c3ce20fa7fc1e4608bfe086922dbb24f7e8de7961e96fa298b6c0ddf9731fa2287583c_640.jpg"
+                        alt="Dr. Emily Carter" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Dr. Emily Carter</h3>
+                        <p class="text-gray-600 mb-4">Cardiologist</p>
+                        <p class="text-gray-700">Dr. Carter is a board-certified cardiologist with over 10 years of
+                            experience.</p>
+                    </div>
+                </div>
+
+                <!-- Doctor Card 2 -->
+                <div class="doctor-card bg-gray-100 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300"
+                    data-animate="fade-in">
+                    <img src="/images/gd26cb9e3eeb5379a7a3a880851e4f80358767247beca3f61a364716e0aae4e5aed27ef56dd0a78e574005208bf548dc7a6af1fd4739194fcee79f0b8bd18d19c_640.jpg"
+                        alt="Dr. John Smith" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Dr. John Smith</h3>
+                        <p class="text-gray-600 mb-4">Pediatrician</p>
+                        <p class="text-gray-700">Dr. Smith is a dedicated pediatrician passionate about children's
+                            health.</p>
+                    </div>
+                </div>
+
+                <!-- Doctor Card 3 -->
+                <div class="doctor-card bg-gray-100 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300"
+                    data-animate="slide-in-right">
+                    <img src="/images/gfdc082251cc17fe13f39f321f9a0807e6443fb5287ed46a0687d9ac6170f6d01c1a663e63fb6d826b94534b4a3ebb841_640.jpg"
+                        alt="Dr. Alice Johnson" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Dr. Alice Johnson</h3>
+                        <p class="text-gray-600 mb-4">Dermatologist</p>
+                        <p class="text-gray-700">Dr. Johnson specializes in diagnosing and treating skin conditions
+                            for all ages.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Specialties Section -->
+    <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center" data-animate="fade-in">Our Specialties</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Specialty Card 1 -->
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition duration-300"
+                    data-animate="slide-in-bottom">
+                    <i class="fas fa-heartbeat text-4xl text-red-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Cardiology</h3>
+                    <p class="text-gray-700">Comprehensive cardiac care, including diagnostics, treatment, and
+                        prevention of heart diseases.</p>
+                </div>
+
+                <!-- Specialty Card 2 -->
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition duration-300"
+                    data-animate="slide-in-bottom" data-animate-delay="200">
+                    <i class="fas fa-child text-4xl text-red-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Pediatrics</h3>
+                    <p class="text-gray-700">Specialized care for infants, children, and adolescents, focusing on
+                        their health and development.</p>
+                </div>
+
+                <!-- Specialty Card 3 -->
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition duration-300"
+                    data-animate="slide-in-bottom" data-animate-delay="400">
+                    <i class="fas fa-skin text-4xl text-red-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Dermatology</h3>
+                    <p class="text-gray-700">Diagnosis and treatment of skin, hair, and nail conditions, including
+                        medical and cosmetic dermatology.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Appointment Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="bg-red-100 rounded-xl p-8 md:p-12 lg:p-16 shadow-lg" data-animate="fade-in">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Book an Appointment</h2>
+                <form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name:</label>
+                        <input type="text" id="name" name="name"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            placeholder="Your Name">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+                        <input type="email" id="email" name="email"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            placeholder="Your Email">
+                    </div>
+                    <div>
+                        <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Phone:</label>
+                        <input type="tel" id="phone" name="phone"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            placeholder="Your Phone Number">
+                    </div>
+                    <div>
+                        <label for="department" class="block text-gray-700 text-sm font-bold mb-2">Department:</label>
+                        <select id="department" name="department"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option>Cardiology</option>
+                            <option>Pediatrics</option>
+                            <option>Dermatology</option>
+                            <option>General Practice</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label for="message" class="block text-gray-700 text-sm font-bold mb-2">Message:</label>
+                        <textarea id="message" name="message" rows="4"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            placeholder="Your Message"></textarea>
+                    </div>
+                    <div class="md:col-span-2 text-center">
+                        <button type="submit"
+                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+                <h4 class="text-xl font-bold mb-4">Medical USA</h4>
+                <p>Your trusted partner for comprehensive medical care. We are committed to providing high-quality,
+                    patient-centered services.</p>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-4">Quick Links</h4>
+                <ul class="list-none">
+                    <li><a href="/" class="hover:text-red-300">Home</a></li>
+                    <li><a href="/doctors.html" class="hover:text-red-300">Doctors</a></li>
+                    <li><a href="#" class="hover:text-red-300">Services</a></li>
+                    <li><a href="#" class="hover:text-red-300">About Us</a></li>
+                    <li><a href="#" class="hover:text-red-300">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-4">Contact Us</h4>
+                <p>123 Main Street, Anytown, USA</p>
+                <p>Email: info@medicalusa.com</p>
+                <p>Phone: (555) 123-4567</p>
+            </div>
+        </div>
+        <div class="text-center mt-8">
+            <p>&copy; 2023 Medical USA. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', function () {
+                mobileMenu.classList.toggle('hidden');
+            });
+        });
+
+        // Animation on Scroll (Simple Implementation)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry
+  </main>
+  
+  <footer class="bg-blue-900 text-white py-12 lg:py-16" data-animate="fade-up">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div>
+                <h3 class="text-xl font-semibold mb-4">Medical USA</h3>
+                <p class="text-gray-300">Your trusted partner in health and wellness. Providing comprehensive medical services with compassion and expertise.</p>
+                <div class="flex mt-4 space-x-4">
+                    <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-facebook-square fa-2x"></i></a>
+                    <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-twitter-square fa-2x"></i></a>
+                    <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-linkedin fa-2x"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-semibold mb-4">Quick Links</h3>
+                <ul class="list-none pl-0">
+                    <li class="mb-2"><a href="/" class="text-gray-300 hover:text-white">Home</a></li>
+                    <li class="mb-2"><a href="/about" class="text-gray-300 hover:text-white">About Us</a></li>
+                    <li class="mb-2"><a href="/services" class="text-gray-300 hover:text-white">Our Services</a></li>
+                    <li class="mb-2"><a href="/doctors" class="text-gray-300 hover:text-white">Our Doctors</a></li>
+                    <li class="mb-2"><a href="/contact" class="text-gray-300 hover:text-white">Contact Us</a></li>
+                    <li class="mb-2"><a href="/patient-resources" class="text-gray-300 hover:text-white">Patient Resources</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-semibold mb-4">Services</h3>
+                <ul class="list-none pl-0">
+                    <li class="mb-2"><a href="#" class="text-gray-300 hover:text-white">General Medicine</a></li>
+                    <li class="mb-2"><a href="#" class="text-gray-300 hover:text-white">Cardiology</a></li>
+                    <li class="mb-2"><a href="#" class="text-gray-300 hover:text-white">Pediatrics</a></li>
+                    <li class="mb-2"><a href="#" class="text-gray-300 hover:text-white">Dermatology</a></li>
+                    <li class="mb-2"><a href="#" class="text-gray-300 hover:text-white">Orthopedics</a></li>
+                    <li class="mb-2"><a href="#" class="text-gray-300 hover:text-white">Neurology</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-semibold mb-4">Contact Information</h3>
+                <p class="text-gray-300 mb-2">Address: 123 Medical Drive, Anytown, USA</p>
+                <p class="text-gray-300 mb-2">Phone: (555) 123-4567</p>
+                <p class="text-gray-300 mb-2">Email: info@medicalusa.com</p>
+                <p class="text-gray-300">Opening Hours: Mon-Fri: 8am - 6pm, Sat: 9am - 1pm</p>
+            </div>
+        </div>
+
+        <div class="mt-8 border-t border-gray-700 pt-8 text-center">
+            <p class="text-gray-400">© 2024 Medical USA. All rights reserved.</p>
+            <p class="text-gray-400">Designed &amp; Developed by [Your Name/Company]</p>
+        </div>
+    </div>
+</footer>
+  
+  <script>
+      tailwind.config={theme:{extend:{colors:{primary:{"50":"hsl(210, 73%, 95%)","100":"hsl(210, 73%, 90%)","200":"hsl(210, 73%, 80%)","300":"hsl(210, 73%, 70%)","400":"hsl(210, 73%, 60%)","500":"hsl(210, 73%, 50%)","600":"hsl(210, 73%, 40%)","700":"hsl(210, 73%, 30%)","800":"hsl(210, 73%, 20%)","900":"hsl(210, 73%, 10%)"}},fontFamily:{sans:[''Inter'','system-ui','sans-serif'],heading:[''Inter'','sans-serif']}}}}
+  </script><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', function () {
+                mobileMenu.classList.toggle('hidden');
+            });
+        });
+    </script><script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', function () {
+            mobileMenu.classList.toggle('hidden');
+        });
+    });
+</script><script>
+      document.addEventListener('DOMContentLoaded',function(){
+          // Animation system
+          const observer=new IntersectionObserver(entries=>{
+              entries.forEach((entry,i)=>{
+                  if(entry.isIntersecting){
+                      setTimeout(()=>{
+                          entry.target.classList.add('visible');
+                          // Handle staggered children if using that animation style
+                          if(entry.target.getAttribute('data-animate')==='stagger'){
+                              Array.from(entry.target.children).forEach((child,childIndex)=>{
+                                  child.style.setProperty('--child-index',childIndex);
+                              });
+                          }
+                      },i*100);
+                      observer.unobserve(entry.target);
+                  }
+              });
+          },{threshold:0.15,rootMargin:'0px 0px -100px 0px'});
+          
+          document.querySelectorAll('[data-animate]').forEach(el=>observer.observe(el));
+          
+          // Fixed navigation
+          const nav=document.querySelector('nav');
+          if(nav){
+              const handleScroll=()=>{
+                  nav.classList[window.scrollY>100?'add':'remove']('nav-fixed');
+              };
+              window.addEventListener('scroll',handleScroll,{passive:true});
+              handleScroll();
+          }
+          
+          // Smooth scroll
+          document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
+              anchor.addEventListener('click',function(e){
+                  e.preventDefault();
+                  const targetId=this.getAttribute('href');
+                  if(targetId==='#')return;
+                  const target=document.querySelector(targetId);
+                  if(target){
+                      const targetPosition=target.getBoundingClientRect().top+window.pageYOffset-(nav?nav.offsetHeight:0)-20;
+                      window.scrollTo({top:targetPosition,behavior:'smooth'});
+                  }
+              });
+          });
+          
+          // Scroll progress indicator
+          const updateScrollProgress = () => {
+              const height=Math.max(
+                  document.body.scrollHeight,
+                  document.body.offsetHeight,
+                  document.documentElement.clientHeight,
+                  document.documentElement.scrollHeight,
+                  document.documentElement.offsetHeight
+              )-window.innerHeight;
+              
+              document.documentElement.style.setProperty('--scroll-progress',(window.scrollY/height*100)+'%');
+          };
+          
+          window.addEventListener('scroll', updateScrollProgress, {passive:true});
+          window.addEventListener('resize', updateScrollProgress, {passive:true});
+          updateScrollProgress();
+          
+          // Mobile menu with enhanced accessibility
+          const menuToggle=document.getElementById('mobile-menu-toggle');
+          const mobileMenu=document.getElementById('mobile-menu');
+          if(menuToggle&&mobileMenu){
+              menuToggle.addEventListener('click',()=>{
+                  const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+                  menuToggle.setAttribute('aria-expanded', (!isExpanded).toString());
+                  mobileMenu.classList.toggle('hidden');
+                  document.body.classList.toggle('overflow-hidden');
+              });
+              
+              // Close on click outside
+              document.addEventListener('click',e=>{
+                  if(mobileMenu&&!mobileMenu.classList.contains('hidden')&&
+                      menuToggle&&!menuToggle.contains(e.target)&&!mobileMenu.contains(e.target)){
+                      mobileMenu.classList.add('hidden');
+                      document.body.classList.remove('overflow-hidden');
+                      menuToggle.setAttribute('aria-expanded', 'false');
+                  }
+              });
+              
+              // Close on escape key
+              document.addEventListener('keydown', e => {
+                  if(e.key === 'Escape' && mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                      mobileMenu.classList.add('hidden');
+                      document.body.classList.remove('overflow-hidden');
+                      menuToggle.setAttribute('aria-expanded', 'false');
+                  }
+              });
+          }
+          
+          // Accordions
+          document.querySelectorAll('[data-accordion-target]').forEach(btn=>{
+              btn.addEventListener('click',()=>{
+                  const target=document.querySelector(btn.getAttribute('data-accordion-target'));
+                  if(target){
+                      const isExpanded=btn.getAttribute('aria-expanded')==='true';
+                      target.classList.toggle('hidden');
+                      btn.setAttribute('aria-expanded',isExpanded?'false':'true');
+                      const icon=btn.querySelector('.accordion-icon');
+                      if(icon)icon.classList.toggle('rotate-180');
+                  }
+              });
+          });
+          
+          // Form validation
+          document.querySelectorAll('form').forEach(form=>{
+              form.addEventListener('submit',function(e){
+                  let valid=true;
+                  const requiredFields=form.querySelectorAll('[required]');
+                  
+                  requiredFields.forEach(field=>{
+                      if(!field.value.trim()){
+                          valid=false;
+                          field.classList.add('border-red-500');
+                          
+                          // Add error message if not already present
+                          let errorMsg=field.parentNode.querySelector('.error-message');
+                          if(!errorMsg){
+                              errorMsg=document.createElement('p');
+                              errorMsg.className='text-red-500 text-sm mt-1 error-message';
+                              errorMsg.textContent='This field is required';
+                              field.parentNode.appendChild(errorMsg);
+                          }
+                      }else{
+                          field.classList.remove('border-red-500');
+                          const errorMsg=field.parentNode.querySelector('.error-message');
+                          if(errorMsg)errorMsg.remove();
+                      }
+                  });
+                  
+                  if(!valid){
+                      e.preventDefault();
+                  }
+              });
+          });
+          
+          // Tabs functionality if present
+          document.querySelectorAll('[data-tabs]').forEach(tabGroup=>{
+              const tabs=tabGroup.querySelectorAll('[data-tab]');
+              const tabContents=document.querySelectorAll('[data-tab-content]');
+              
+              tabs.forEach(tab=>{
+                  tab.addEventListener('click',()=>{
+                      const target=tab.getAttribute('data-tab');
+                      
+                      // Update active tab state
+                      tabs.forEach(t=>{
+                          t.classList.remove('active-tab','text-primary-600','border-primary-600');
+                          t.setAttribute('aria-selected', 'false');
+                      });
+                      tab.classList.add('active-tab','text-primary-600','border-primary-600');
+                      tab.setAttribute('aria-selected', 'true');
+                      
+                      // Show correct content
+                      tabContents.forEach(content=>{
+                          if(content.getAttribute('data-tab-content')===target){
+                              content.classList.remove('hidden');
+                          }else{
+                              content.classList.add('hidden');
+                          }
+                      });
+                  });
+              });
+          });
+          
+          // Carousels
+          document.querySelectorAll('[data-carousel]').forEach(carousel=>{
+              const slides=carousel.querySelectorAll('[data-slide]');
+              const prevBtn=carousel.querySelector('[data-carousel-prev]');
+              const nextBtn=carousel.querySelector('[data-carousel-next]');
+              
+              if(slides.length>0&&prevBtn&&nextBtn){
+                  let current=0,interval=null;
+                  
+                  slides[0].classList.remove('hidden');
+                  
+                  const updateIndicators=()=>{
+                      carousel.querySelectorAll('[data-indicator]').forEach((ind,i)=>{
+                          ind.classList[i===current?'add':'remove']('bg-primary-600');
+                          ind.classList[i!==current?'add':'remove']('bg-gray-300');
+                      });
+                  };
+                  
+                  const showSlide=idx=>{
+                      slides.forEach(s=>s.classList.add('hidden'));
+                      slides[idx].classList.remove('hidden');
+                      updateIndicators();
+                  };
+                  
+                  nextBtn.addEventListener('click',()=>{
+                      current=(current+1)%slides.length;
+                      showSlide(current);
+                  });
+                  
+                  prevBtn.addEventListener('click',()=>{
+                      current=(current-1+slides.length)%slides.length;
+                      showSlide(current);
+                  });
+                  
+                  updateIndicators();
+                  
+                  const startAuto=()=>{
+                      if(carousel.hasAttribute('data-auto')&&!interval){
+                          interval=setInterval(()=>{
+                              current=(current+1)%slides.length;
+                              showSlide(current);
+                          },5000);
+                      }
+                  };
+                  
+                  carousel.addEventListener('mouseenter',()=>{
+                      if(interval){clearInterval(interval);interval=null;}
+                  });
+                  
+                  carousel.addEventListener('mouseleave',startAuto);
+                  
+                  carousel.querySelectorAll('[data-indicator]').forEach((ind,i)=>{
+                      ind.addEventListener('click',()=>{
+                          current=i;
+                          showSlide(current);
+                      });
+                  });
+                  
+                  startAuto();
+              }
+          });
+          
+          // Initialize counters for stats sections if they exist
+          document.querySelectorAll('[data-counter]').forEach(counter=>{
+              const target=parseInt(counter.getAttribute('data-counter')||'0',10);
+              const duration=1500; // Animation duration in ms
+              const step=Math.ceil(target/50); // How much to increment per step
+              let current=0;
+              
+              const updateCounter=()=>{
+                  current+=step;
+                  if(current>target)current=target;
+                  
+                  counter.textContent=current.toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');
+                  
+                  if(current<target){
+                      requestAnimationFrame(updateCounter);
+                  }
+              };
+              
+              // Start counting when element is in view
+              const observer=new IntersectionObserver(entries=>{
+                  entries.forEach(entry=>{
+                      if(entry.isIntersecting){
+                          updateCounter();
+                          observer.unobserve(entry.target);
+                      }
+                  });
+              },{threshold:0.5});
+              
+              observer.observe(counter);
+          });
+      });
+  </script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Animation system
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.classList.add('visible');
+              // Handle staggered children if using that animation style
+              if (entry.target.getAttribute('data-animate') === 'stagger') {
+                Array.from(entry.target.children).forEach((child, childIndex) => {
+                  child.style.setProperty('--child-index', childIndex);
+                });
+              }
+            }, i * 100);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -100px 0px' });
+      
+      document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
+      
+      // Fixed navigation
+      const nav = document.querySelector('nav');
+      if (nav) {
+        const handleScroll = () => {
+          nav.classList[window.scrollY > 100 ? 'add' : 'remove']('nav-fixed');
+        };
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
+      }
+      
+      // Mobile menu functionality
+      const menuToggle = document.getElementById('mobile-menu-toggle');
+      const mobileMenu = document.getElementById('mobile-menu');
+      if (menuToggle && mobileMenu) {
+        menuToggle.addEventListener('click', () => {
+          const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+          menuToggle.setAttribute('aria-expanded', (!isExpanded).toString());
+          mobileMenu.classList.toggle('hidden');
+          document.body.classList.toggle('overflow-hidden');
+        });
+        
+        // Close on click outside
+        document.addEventListener('click', e => {
+          if (mobileMenu && !mobileMenu.classList.contains('hidden') &&
+              menuToggle && !menuToggle.contains(e.target) && !mobileMenu.contains(e.target)) {
+            mobileMenu.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+            menuToggle.setAttribute('aria-expanded', 'false');
+          }
+        });
+        
+        // Close on escape key
+        document.addEventListener('keydown', e => {
+          if (e.key === 'Escape' && mobileMenu && !mobileMenu.classList.contains('hidden')) {
+            mobileMenu.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+            menuToggle.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+      
+      // Smooth scroll behavior
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          const target = document.querySelector(targetId);
+          if (target) {
+            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - (nav ? nav.offsetHeight : 0) - 20;
+            window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+          }
+        });
+      });
+    });
+  </script>
+
+<script>
+  // Simple styling debugger
+  (() => {
+    // Add debugger button
+    const btn = document.createElement('button');
+    btn.textContent = 'Style Debug';
+    btn.style.cssText = 'position: fixed; bottom: 10px; right: 10px; z-index: 9999; background: #3b82f6; color: white; border: none; border-radius: 4px; padding: 8px 12px; font-family: system-ui, sans-serif; font-size: 14px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2);';
+    document.body.appendChild(btn);
+    
+    // Add event listener
+    btn.addEventListener('click', () => {
+      // Highlight header, nav, and footer
+      const header = document.querySelector('header');
+      const nav = document.querySelector('nav');
+      const footer = document.querySelector('footer');
+      
+      if (header) {
+        header.style.outline = '3px solid rgba(239, 68, 68, 0.7)';
+        setTimeout(() => { header.style.outline = ''; }, 3000);
+      }
+      
+      if (nav) {
+        nav.style.outline = '3px solid rgba(59, 130, 246, 0.7)';
+        setTimeout(() => { nav.style.outline = ''; }, 3000);
+      }
+      
+      if (footer) {
+        footer.style.outline = '3px solid rgba(16, 185, 129, 0.7)';
+        setTimeout(() => { footer.style.outline = ''; }, 3000);
+      }
+      
+      // Show some stats
+      const info = {
+        header: header ? header.offsetHeight + 'px tall' : 'Missing!',
+        navigation: nav ? nav.querySelectorAll('a').length + ' links' : 'Missing!',
+        footer: footer ? footer.querySelectorAll('a').length + ' links' : 'Missing!'
+      };
+      
+      console.log('Page structure diagnostics:');
+      console.table(info);
+      
+      // Run additional checks
+      const checks = [
+        { 
+          test: 'Header min-height', 
+          result: header && (header.offsetHeight >= 400 || 
+            getComputedStyle(header).minHeight.includes('500') || 
+            header.className.includes('min-h-')), 
+          details: header ? `Current height: ${header.offsetHeight}px` : 'Missing header' 
+        },
+        { 
+          test: 'Navigation mobile toggle', 
+          result: !!document.getElementById('mobile-menu-toggle'), 
+          details: document.getElementById('mobile-menu-toggle') ? 'Present' : 'Missing' 
+        },
+        { 
+          test: 'Consistent styling', 
+          result: document.querySelectorAll('[class*="from-"],[class*="to-"]').length > 0, 
+          details: 'Gradient classes detected: ' + 
+            Array.from(document.querySelectorAll('[class*="from-"],[class*="to-"]'))
+              .map(el => Array.from(el.classList)
+                .filter(cls => cls.includes('from-') || cls.includes('to-'))
+                .join(' '))
+              .filter((v, i, a) => a.indexOf(v) === i)
+              .join(', ')
+        }
+      ];
+      
+      console.log('Page checks:');
+      console.table(checks);
+      
+      alert(`Page Structure Diagnostics:\n
+- Header: ${info.header}
+- Navigation: ${info.navigation}
+- Footer: ${info.footer}\n
+Elements highlighted for 3 seconds. More details in console.`);
+    });
+  })();
+</script>
+</body>
+</html>
